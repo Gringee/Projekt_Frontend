@@ -8,6 +8,7 @@ const FeedPage: React.FC = () => {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [currentView, setCurrentView] = useState<'folders' | 'all' | 'folder'>('all');
   const [userFilter, setUserFilter] = useState<string>('');
+  const [photoIdFilter, setPhotoIdFilter] = useState<string>('');
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   const currentUser = localStorage.getItem('username') || 'guest';
   const navigate = useNavigate();
@@ -32,8 +33,13 @@ const FeedPage: React.FC = () => {
     setUserFilter(e.target.value);
   };
 
+  const handlePhotoIdFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhotoIdFilter(e.target.value);
+  };
+
   const filteredImages = images.filter(image => 
     (userFilter ? image.user === userFilter : true) &&
+    (photoIdFilter ? image.id.includes(photoIdFilter) : true) &&
     (selectedFolder ? image.folderId === selectedFolder.id : true)
   );
 
@@ -80,6 +86,14 @@ const FeedPage: React.FC = () => {
           placeholder="Filter by user"
           value={userFilter}
           onChange={handleUserFilterChange}
+          className="filter-input"
+        />
+        <input
+          type="text"
+          placeholder="Filter by photo ID"
+          value={photoIdFilter}
+          onChange={handlePhotoIdFilterChange}
+          className="filter-input"
         />
       </div>
 
@@ -104,6 +118,7 @@ const FeedPage: React.FC = () => {
               <img src={image.url} alt={image.name} />
               <p>{image.name}</p>
               <p>Author: {image.user}</p>
+              <p>ID: {image.id}</p>
               {image.user === currentUser && (
                 <button className="delete-btn" onClick={() => handleDelete(image.id)}>Delete</button>
               )}
@@ -120,6 +135,7 @@ const FeedPage: React.FC = () => {
               <img src={image.url} alt={image.name} />
               <p>{image.name}</p>
               <p>Author: {image.user}</p>
+              <p>ID: {image.id}</p>
               {image.user === currentUser && (
                 <button className="delete-btn" onClick={() => handleDelete(image.id)}>Delete</button>
               )}

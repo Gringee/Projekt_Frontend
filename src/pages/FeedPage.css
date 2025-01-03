@@ -111,3 +111,11 @@
 .folder-link::before {
   content: '📁 ';
 }
+
+.filter-input {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: calc(50% - 10px);
+}

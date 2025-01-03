@@ -11,8 +11,8 @@ type Post = {
 const PostManagement: React.FC = () => {
   const currentUser = "User1"; // Przykład zalogowanego użytkownika
   const [posts, setPosts] = useState<Post[]>([
-    { id: 1, author: "User1", content: "This is my first post!" },
-    { id: 2, author: "User2", content: "Hello, this is User2." },
+ //   { id: 1, author: "User1", content: "This is my first post!" },
+ //   { id: 2, author: "User2", content: "Hello, this is User2." },
   ]);
   const [author, setAuthor] = useState<string>("");
   const [content, setContent] = useState<string>("");

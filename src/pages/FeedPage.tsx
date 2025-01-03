@@ -30,7 +30,7 @@ const FeedPage: React.FC = () => {
     const updatedImages = images.filter(image => image.id !== id);
     setImages(updatedImages);
     localStorage.setItem('images', JSON.stringify(updatedImages));
-    alert('Zdjęcie usunięte');
+    alert('Photo deleted');
   };
 
   const handleLogout = () => {
@@ -45,20 +45,20 @@ const FeedPage: React.FC = () => {
 
   return (
     <div className="feed-container">
-      <h1>Feed ze zdjęciami</h1>
+      <h1>Photo Feed</h1>
       <p>Logged in as: <strong>{currentUser}</strong></p>
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
       <button className="back-btn" onClick={handleBackToDashboard}>Back to Dashboard</button>
 
       <div>
-        <button className="view-btn" onClick={() => setCurrentView('all')}>Wszystkie zdjęcia</button>
-        <button className="view-btn" onClick={() => setCurrentView('folders')}>Przeglądaj foldery</button>
+        <button className="view-btn" onClick={() => setCurrentView('all')}>All Photos</button>
+        <button className="view-btn" onClick={() => setCurrentView('folders')}>Browse Folders</button>
       </div>
 
       <div>
         <input
           type="text"
-          placeholder="Filtruj po użytkowniku"
+          placeholder="Filter by user"
           value={userFilter}
           onChange={handleUserFilterChange}
         />
@@ -66,7 +66,7 @@ const FeedPage: React.FC = () => {
 
       {currentView === 'folders' && (
         <div>
-          <h2>Foldery</h2>
+          <h2>Folders</h2>
           {folders.map(folder => (
             <div key={folder.id}>
               <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
@@ -77,21 +77,21 @@ const FeedPage: React.FC = () => {
 
       {currentView === 'all' && (
         <div>
-          <h2>Zdjęcia</h2>
+          <h2>Photos</h2>
           {filteredImages.map(image => (
             <div key={image.id} className="image-item">
               <img src={image.url} alt={image.name} />
               <p>{image.name}</p>
-              <p>Autor: {image.user}</p>
+              <p>Author: {image.user}</p>
               {image.user === currentUser && (
-                <button className="delete-btn" onClick={() => handleDelete(image.id)}>Usuń</button>
+                <button className="delete-btn" onClick={() => handleDelete(image.id)}>Delete</button>
               )}
             </div>
           ))}
         </div>
       )}
 
-      <Link to="/add-photo">Dodaj nowe zdjęcie</Link>
+      <Link to="/add-photo">Add New Photo</Link>
     </div>
   );
 };

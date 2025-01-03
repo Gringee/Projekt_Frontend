@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Image, Folder } from '../types';
 import './FeedPage.css';
 
 const FeedPage: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);
   const [folders, setFolders] = useState<Folder[]>([]);
-  const [currentView, setCurrentView] = useState<'folders' | 'all'>('all');
+  const [currentView, setCurrentView] = useState<'folders' | 'all' | 'folder'>('all');
   const [userFilter, setUserFilter] = useState<string>('');
+  const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   const currentUser = localStorage.getItem('username') || 'guest';
   const navigate = useNavigate();
+  const { folderId } = useParams<{ folderId: string }>();
 
   useEffect(() => {
     const storedImages = JSON.parse(localStorage.getItem('images') || '[]');
@@ -18,12 +20,21 @@ const FeedPage: React.FC = () => {
     setFolders(storedFolders);
   }, []);
 
+  useEffect(() => {
+    if (folderId) {
+      const folder = folders.find(f => f.id === folderId);
+      setSelectedFolder(folder || null);
+      setCurrentView('folder');
+    }
+  }, [folderId, folders]);
+
   const handleUserFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserFilter(e.target.value);
   };
 
   const filteredImages = images.filter(image => 
-    (userFilter ? image.user === userFilter : true)
+    (userFilter ? image.user === userFilter : true) &&
+    (selectedFolder ? image.folderId === selectedFolder.id : true)
   );
 
   const handleDelete = (id: string) => {
@@ -41,6 +52,11 @@ const FeedPage: React.FC = () => {
 
   const handleBackToDashboard = () => {
     navigate('/dashboard');
+  };
+
+  const handleBackToFolders = () => {
+    setSelectedFolder(null);
+    setCurrentView('folders');
   };
 
   return (
@@ -69,10 +85,27 @@ const FeedPage: React.FC = () => {
           <h2>Folders</h2>
           {folders.map(folder => (
             <div key={folder.id}>
-              <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
+              <Link to={`/folder/${folder.id}`} className="folder-link">{folder.name}</Link>
             </div>
           ))}
-          <Link to="/manage-folders">Edit folders</Link>
+          <Link to="/manage-folders" className="edit-folders-link">Edit folders</Link>
+        </div>
+      )}
+
+      {currentView === 'folder' && selectedFolder && (
+        <div>
+          <h2>Photos in {selectedFolder.name}</h2>
+          <button className="back-btn" onClick={handleBackToFolders}>Back to Folders</button>
+          {filteredImages.map(image => (
+            <div key={image.id} className="image-item">
+              <img src={image.url} alt={image.name} />
+              <p>{image.name}</p>
+              <p>Author: {image.user}</p>
+              {image.user === currentUser && (
+                <button className="delete-btn" onClick={() => handleDelete(image.id)}>Delete</button>
+              )}
+            </div>
+          ))}
         </div>
       )}
 

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Folder as FolderType } from '../types';
+import './FolderManagementPage.css';
 
 const FolderManagementPage: React.FC = () => {
   const [folders, setFolders] = useState<FolderType[]>([]);
   const [folderName, setFolderName] = useState<string>('');
   const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedFolders = JSON.parse(localStorage.getItem('folders') || '[]');
@@ -48,13 +51,17 @@ const FolderManagementPage: React.FC = () => {
     localStorage.setItem('folders', JSON.stringify(updatedFolders));
   };
 
+  const handleBackToFeed = () => {
+    navigate('/feed');
+  };
+
   return (
-    <div>
+    <div className="folder-management-container">
       <h1>Manage Folders</h1>
       <div>
         <input
           type="text"
-          placeholder="Nazwa folderu"
+          placeholder="Folder Name"
           value={folderName}
           onChange={(e) => setFolderName(e.target.value)}
         />
@@ -66,13 +73,14 @@ const FolderManagementPage: React.FC = () => {
       </div>
       <ul>
         {folders.map(folder => (
-          <li key={folder.id}>
+          <li key={folder.id} className="folder-item">
             {folder.name}
             <button onClick={() => handleEditFolder(folder.id)}>Edit</button>
             <button onClick={() => handleDeleteFolder(folder.id)}>Delete</button>
           </li>
         ))}
       </ul>
+      <button className="back-btn" onClick={handleBackToFeed}>Back to Feed</button>
     </div>
   );
 };

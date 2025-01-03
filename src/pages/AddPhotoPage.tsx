@@ -26,17 +26,21 @@ const AddPhotoPage: React.FC = () => {
     e.preventDefault();
     if (!file || !name) return;
 
-    const newImage: Image = {
-      id: `${Date.now()}`,
-      name: name,
-      url: URL.createObjectURL(file),
-      user: currentUser,
-      folderId: folderId,
-    };
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const newImage: Image = {
+        id: `${Date.now()}`,
+        name: name,
+        url: reader.result as string,
+        user: currentUser,
+        folderId: folderId,
+      };
 
-    const updatedImages = [...JSON.parse(localStorage.getItem('images') || '[]'), newImage];
-    localStorage.setItem('images', JSON.stringify(updatedImages));
-    navigate('/feed');
+      const updatedImages = [...JSON.parse(localStorage.getItem('images') || '[]'), newImage];
+      localStorage.setItem('images', JSON.stringify(updatedImages));
+      navigate('/feed');
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleBackToFeed = () => {

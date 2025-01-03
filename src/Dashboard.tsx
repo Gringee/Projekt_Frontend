@@ -62,6 +62,7 @@ const Dashboard: React.FC = () => {
       )}
       <button onClick={handleNavigateToFeed}>Go to Feed</button>
       <button onClick={handleNavigateToPosts}>Go to Posts</button>
+      <button onClick={handleNavigateToPosts}>Go to MyProfile</button>
     </div>
   );
 };

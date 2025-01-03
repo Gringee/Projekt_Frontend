@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Image } from '../types';
+import { Image, Folder } from '../types';
 
 const AddPhotoPage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState<string>('');
-  const [user, setUser] = useState<string>('currentUser');  // Na przykładzie, że użytkownik jest zawsze "currentUser"
-  const [images, setImages] = useState<Image[]>([]);
+  const [folderId, setFolderId] = useState<string>('');
+  const [folders, setFolders] = useState<Folder[]>([]);
+  const currentUser = localStorage.getItem('username') || 'guest';
   const navigate = useNavigate();
+
+  useState(() => {
+    const storedFolders = JSON.parse(localStorage.getItem('folders') || '[]');
+    setFolders(storedFolders);
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -20,14 +26,16 @@ const AddPhotoPage: React.FC = () => {
     if (!file || !name) return;
 
     const newImage: Image = {
-      id: `${images.length + 1}`,  // Prosty sposób generowania ID
+      id: `${Date.now()}`,
       name: name,
-      url: URL.createObjectURL(file),  // Lokalny URL dla obrazu
-      user: user,
+      url: URL.createObjectURL(file),
+      user: currentUser,
+      folderId: folderId,
     };
 
-    setImages([...images, newImage]);
-    navigate('/');  // Przekierowanie na stronę główną
+    const updatedImages = [...JSON.parse(localStorage.getItem('images') || '[]'), newImage];
+    localStorage.setItem('images', JSON.stringify(updatedImages));
+    navigate('/feed');
   };
 
   return (
@@ -41,6 +49,12 @@ const AddPhotoPage: React.FC = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <input type="file" onChange={handleFileChange} />
+        <select value={folderId} onChange={(e) => setFolderId(e.target.value)}>
+          <option value="">Wybierz folder</option>
+          {folders.map(folder => (
+            <option key={folder.id} value={folder.id}>{folder.name}</option>
+          ))}
+        </select>
         <button type="submit">Dodaj zdjęcie</button>
       </form>
     </div>

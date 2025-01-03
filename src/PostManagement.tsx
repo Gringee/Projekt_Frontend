@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./PostManagement.css";
 
 type Post = {
@@ -15,6 +16,7 @@ const PostManagement: React.FC = () => {
   ]);
   const [author, setAuthor] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const navigate = useNavigate();
 
   const addPost = () => {
     if (!author.trim() || !content.trim()) {
@@ -37,9 +39,15 @@ const PostManagement: React.FC = () => {
     setPosts(posts.filter((post) => post.id !== id));
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('role');
+    navigate('/');
+  };
+
   return (
     <div className="container">
       <h1>Post Management</h1>
+      <button className="logout-btn" onClick={handleLogout}>Logout</button>
 
       <div className="form">
         <input

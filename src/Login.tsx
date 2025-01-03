@@ -23,7 +23,11 @@ const Login: React.FC = () => {
     const user = users.find((u: { username: string; password: string }) => u.username === username && u.password === password);
     if (user) {
       localStorage.setItem('role', user.role);
-      navigate('/dashboard');
+      if (user.role === 'admin') {
+        navigate('/dashboard');
+      } else {
+        navigate('/posts');
+      }
     } else {
       setError('Invalid credentials');
     }

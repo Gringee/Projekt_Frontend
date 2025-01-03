@@ -1,8 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
-import Login from './Login';
-import Dashboard from './Dashboard';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Login from "./Login";
+import Dashboard from "./Dashboard";
+import PostManagement from "./PostManagement";
 
 const App: React.FC = () => {
   return (
@@ -11,10 +12,11 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/posts" element={<PostManagement />} />
         </Routes>
       </div>
     </Router>
   );
-}
+};
 
 export default App;

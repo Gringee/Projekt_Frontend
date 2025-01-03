@@ -24,11 +24,7 @@ const Login: React.FC = () => {
     if (user) {
       localStorage.setItem('role', user.role);
       localStorage.setItem('username', user.username);
-      if (user.role === 'admin') {
-        navigate('/dashboard');
-      } else {
-        navigate('/posts');
-      }
+      navigate('/dashboard');
     } else {
       setError('Invalid credentials');
     }

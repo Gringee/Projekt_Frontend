@@ -27,7 +27,11 @@ const Dashboard: React.FC = () => {
   const filteredUsers = users.filter(user => user.username.includes(search));
 
   const handleNavigateToFeed = () => {
-    navigate('/feed');  // Przekierowanie do strony FeedPage
+    navigate('/feed');
+  };
+
+  const handleNavigateToPosts = () => {
+    navigate('/posts');
   };
 
   return (
@@ -54,9 +58,10 @@ const Dashboard: React.FC = () => {
       ) : (
         <div>
           Welcome, User! You have limited access.
-          <button onClick={handleNavigateToFeed}>Go to Feed</button> {/* Przycisk przejścia do feedu */}
         </div>
       )}
+      <button onClick={handleNavigateToFeed}>Go to Feed</button>
+      <button onClick={handleNavigateToPosts}>Go to Posts</button>
     </div>
   );
 };

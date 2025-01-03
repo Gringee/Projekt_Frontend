@@ -92,10 +92,15 @@ const PostManagement: React.FC = () => {
     navigate('/');
   };
 
+  const handleBackToDashboard = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <div className="container">
       <h1>Post Management</h1>
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
+      <button className="back-btn" onClick={handleBackToDashboard}>Back to Dashboard</button>
 
       <div className="form">
         <p>Logged in as: <strong>{currentUser}</strong></p>

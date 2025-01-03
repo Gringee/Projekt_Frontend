@@ -40,39 +40,25 @@ const AddPhotoPage: React.FC = () => {
 
   return (
     <div>
-      <h1>Dodaj nowe zdjęcie</h1>
+      <h1>Add New Photo</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Nazwa zdjęcia"
+          placeholder="Photo Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input type="file" onChange={handleFileChange} />
         <select value={folderId} onChange={(e) => setFolderId(e.target.value)}>
-          <option value="">Wybierz folder</option>
+          <option value="">Select Folder</option>
           {folders.map(folder => (
             <option key={folder.id} value={folder.id}>{folder.name}</option>
           ))}
         </select>
-        <button type="submit">Dodaj zdjęcie</button>
+        <button type="submit">Add Photo</button>
       </form>
     </div>
   );
 };
 
 export default AddPhotoPage;
-
-// types.ts
-export interface Image {
-  id: string;
-  name: string;
-  url: string;
-  user: string;
-  folderId?: string; // Dodano opcjonalne folderId
-}
-
-export interface Folder {
-  id: string;
-  name: string;
-}

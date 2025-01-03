@@ -17,7 +17,7 @@ type Comment = {
 
 const PostManagement: React.FC = () => {
   const navigate = useNavigate();
-  const currentUser = localStorage.getItem('username') || ''; // Get the logged-in user's username
+  const [currentUser, setCurrentUser] = useState<string>('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [content, setContent] = useState<string>("");
   const [commentContent, setCommentContent] = useState<string>("");
@@ -25,7 +25,13 @@ const PostManagement: React.FC = () => {
   useEffect(() => {
     const savedPosts = JSON.parse(localStorage.getItem('posts') || '[]');
     setPosts(savedPosts);
-  }, []);
+    const username = localStorage.getItem('username');
+    if (username) {
+      setCurrentUser(username);
+    } else {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const addPost = () => {
     if (!content.trim()) {

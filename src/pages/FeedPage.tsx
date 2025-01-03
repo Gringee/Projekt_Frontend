@@ -8,6 +8,7 @@ const FeedPage: React.FC = () => {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [currentView, setCurrentView] = useState<'folders' | 'all' | 'folder'>('all');
   const [userFilter, setUserFilter] = useState<string>('');
+  const [photoIdFilter, setPhotoIdFilter] = useState<string>('');
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   const currentUser = localStorage.getItem('username') || 'guest';
   const navigate = useNavigate();
@@ -32,8 +33,13 @@ const FeedPage: React.FC = () => {
     setUserFilter(e.target.value);
   };
 
+  const handlePhotoIdFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhotoIdFilter(e.target.value);
+  };
+
   const filteredImages = images.filter(image => 
     (userFilter ? image.user === userFilter : true) &&
+    (photoIdFilter ? image.id.includes(photoIdFilter) : true) &&
     (selectedFolder ? image.folderId === selectedFolder.id : true)
   );
 
@@ -55,6 +61,7 @@ const FeedPage: React.FC = () => {
   };
 
   const handleBackToFolders = () => {
+    navigate('/feed');
     setSelectedFolder(null);
     setCurrentView('folders');
   };
@@ -66,10 +73,12 @@ const FeedPage: React.FC = () => {
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
       <button className="back-btn" onClick={handleBackToDashboard}>Back to Dashboard</button>
 
-      <div>
-        <button className="view-btn" onClick={() => setCurrentView('all')}>All Photos</button>
-        <button className="view-btn" onClick={() => setCurrentView('folders')}>Browse Folders</button>
-      </div>
+      {currentView !== 'folder' && (
+        <div>
+          <button className="view-btn" onClick={() => setCurrentView('all')}>All Photos</button>
+          <button className="view-btn" onClick={() => setCurrentView('folders')}>Browse Folders</button>
+        </div>
+      )}
 
       <div>
         <input
@@ -77,6 +86,14 @@ const FeedPage: React.FC = () => {
           placeholder="Filter by user"
           value={userFilter}
           onChange={handleUserFilterChange}
+          className="filter-input"
+        />
+        <input
+          type="text"
+          placeholder="Filter by photo ID"
+          value={photoIdFilter}
+          onChange={handlePhotoIdFilterChange}
+          className="filter-input"
         />
       </div>
 
@@ -85,7 +102,7 @@ const FeedPage: React.FC = () => {
           <h2>Folders</h2>
           {folders.map(folder => (
             <div key={folder.id}>
-              <Link to={`/folder/${folder.id}`} className="folder-link">{folder.name}</Link>
+              <button className="folder-link" onClick={() => navigate(`/folder/${folder.id}`)}>{folder.name}</button>
             </div>
           ))}
           <Link to="/manage-folders" className="edit-folders-link">Edit folders</Link>
@@ -101,6 +118,7 @@ const FeedPage: React.FC = () => {
               <img src={image.url} alt={image.name} />
               <p>{image.name}</p>
               <p>Author: {image.user}</p>
+              <p>ID: {image.id}</p>
               {image.user === currentUser && (
                 <button className="delete-btn" onClick={() => handleDelete(image.id)}>Delete</button>
               )}
@@ -117,6 +135,7 @@ const FeedPage: React.FC = () => {
               <img src={image.url} alt={image.name} />
               <p>{image.name}</p>
               <p>Author: {image.user}</p>
+              <p>ID: {image.id}</p>
               {image.user === currentUser && (
                 <button className="delete-btn" onClick={() => handleDelete(image.id)}>Delete</button>
               )}

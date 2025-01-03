@@ -1,0 +1,47 @@
+.add-photo-container {
+  max-width: 800px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-photo-container h1 {
+  margin-bottom: 20px;
+}
+
+.add-photo-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-photo-container input,
+.add-photo-container select {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-photo-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.add-photo-container button:hover {
+  background-color: #218838;
+}
+
+.back-btn {
+  background-color: #dc3545;
+}
+
+.back-btn:hover {
+  background-color: #c82333;
+}

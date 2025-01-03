@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Image, Folder } from '../types';
+import './AddPhotoPage.css';
 
 const AddPhotoPage: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -38,8 +39,12 @@ const AddPhotoPage: React.FC = () => {
     navigate('/feed');
   };
 
+  const handleBackToFeed = () => {
+    navigate('/feed');
+  };
+
   return (
-    <div>
+    <div className="add-photo-container">
       <h1>Add New Photo</h1>
       <form onSubmit={handleSubmit}>
         <input
@@ -57,6 +62,7 @@ const AddPhotoPage: React.FC = () => {
         </select>
         <button type="submit">Add Photo</button>
       </form>
+      <button className="back-btn" onClick={handleBackToFeed}>Back to Feed</button>
     </div>
   );
 };

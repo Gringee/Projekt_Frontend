@@ -39,15 +39,20 @@ This project is a simple frontend application that allows users to manage posts 
 ### Photo Feed
 
 - View all photos or browse by folders.
-- Filter photos by user.
+- Filter photos by user or photo ID.
 - Add new photos.
 - Delete photos (only by the photo author).
-- Photos are saved in local storage and visible to all users.
+- Photos are saved in local storage and visible in the photo feed.
 
 ### Add Photo
 
 - Add a new photo with a name and optional folder.
 - Photos are saved in local storage and visible in the photo feed.
+
+### Folder Management
+
+- Add, edit, and delete folders.
+- Folders are saved in local storage and used to organize photos.
 
 ## Installation
 
@@ -90,6 +95,7 @@ projekt_frontend/
 │   ├── pages/
 │   │   ├── AddPhotoPage.tsx
 │   │   ├── FeedPage.tsx
+│   │   ├── FolderManagementPage.tsx
 │   │   └── ...
 │   ├── App.css
 │   ├── App.tsx

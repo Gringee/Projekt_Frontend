@@ -67,10 +67,12 @@ const FeedPage: React.FC = () => {
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
       <button className="back-btn" onClick={handleBackToDashboard}>Back to Dashboard</button>
 
-      <div>
-        <button className="view-btn" onClick={() => setCurrentView('all')}>All Photos</button>
-        <button className="view-btn" onClick={() => setCurrentView('folders')}>Browse Folders</button>
-      </div>
+      {currentView !== 'folder' && (
+        <div>
+          <button className="view-btn" onClick={() => setCurrentView('all')}>All Photos</button>
+          <button className="view-btn" onClick={() => setCurrentView('folders')}>Browse Folders</button>
+        </div>
+      )}
 
       <div>
         <input

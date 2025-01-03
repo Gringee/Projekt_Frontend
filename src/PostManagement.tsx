@@ -19,14 +19,14 @@ const PostManagement: React.FC = () => {
   const navigate = useNavigate();
 
   const addPost = () => {
-    if (!author.trim() || !content.trim()) {
+    if (!currentUser.trim() || !content.trim()) {
       alert("Please fill out both fields!");
       return;
     }
 
     const newPost: Post = {
       id: posts.length ? posts[posts.length - 1].id + 1 : 1,
-      author: author.trim(),
+      author: currentUser.trim(),
       content: content.trim(),
     };
 

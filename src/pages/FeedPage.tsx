@@ -72,6 +72,7 @@ const FeedPage: React.FC = () => {
               <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
             </div>
           ))}
+          <Link to="/manage-folders">Edit folders</Link>
         </div>
       )}
 

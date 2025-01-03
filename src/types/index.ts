@@ -3,7 +3,7 @@ export interface Image {
   name: string;
   url: string;
   user: string;
-  folderId?: string; // Dodano opcjonalne folderId
+  folderId?: string; 
 }
 
 export interface Folder {

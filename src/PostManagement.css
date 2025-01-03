@@ -94,3 +94,30 @@
 .logout-btn:hover {
   background-color: #c82333;
 }
+
+.comment-author {
+  font-weight: bold;
+  display: block;
+  text-align: left;
+}
+
+.comment-label {
+  color: blue;
+  font-weight: normal;
+  margin-left: 5px;
+}
+
+.comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-content {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.comment-delete-btn {
+  margin-left: 10px;
+}

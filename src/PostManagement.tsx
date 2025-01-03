@@ -20,7 +20,7 @@ const PostManagement: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<string>('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [content, setContent] = useState<string>("");
-  const [commentContent, setCommentContent] = useState<string>("");
+  const [commentContent, setCommentContent] = useState<{ [key: number]: string }>({});
 
   useEffect(() => {
     const savedPosts = JSON.parse(localStorage.getItem('posts') || '[]');
@@ -59,7 +59,7 @@ const PostManagement: React.FC = () => {
   };
 
   const addComment = (postId: number) => {
-    if (!commentContent.trim()) {
+    if (!commentContent[postId]?.trim()) {
       alert("Please enter a comment!");
       return;
     }
@@ -67,7 +67,7 @@ const PostManagement: React.FC = () => {
     const newComment: Comment = {
       id: Date.now(),
       author: currentUser,
-      content: commentContent.trim(),
+      content: commentContent[postId].trim(),
     };
 
     const updatedPosts = posts.map(post => 
@@ -75,7 +75,7 @@ const PostManagement: React.FC = () => {
     );
     setPosts(updatedPosts);
     localStorage.setItem('posts', JSON.stringify(updatedPosts));
-    setCommentContent("");
+    setCommentContent(prev => ({ ...prev, [postId]: "" }));
   };
 
   const deleteComment = (postId: number, commentId: number) => {
@@ -127,11 +127,13 @@ const PostManagement: React.FC = () => {
             <div className="comments">
               {post.comments.map((comment) => (
                 <div className="comment" key={comment.id}>
-                  <span className="comment-author">{comment.author}</span>
-                  <p>{comment.content}</p>
+                  <div className="comment-content">
+                    <span className="comment-author">{comment.author} <span className="comment-label">(comment)</span></span>
+                    <p>{comment.content}</p>
+                  </div>
                   {comment.author === currentUser && (
                     <button
-                      className="delete-btn"
+                      className="delete-btn comment-delete-btn"
                       onClick={() => deleteComment(post.id, comment.id)}
                     >
                       Delete
@@ -143,8 +145,8 @@ const PostManagement: React.FC = () => {
                 <textarea
                   rows={2}
                   placeholder="Add a comment..."
-                  value={commentContent}
-                  onChange={(e) => setCommentContent(e.target.value)}
+                  value={commentContent[post.id] || ""}
+                  onChange={(e) => setCommentContent(prev => ({ ...prev, [post.id]: e.target.value }))}
                 />
                 <button onClick={() => addComment(post.id)}>Comment</button>
               </div>

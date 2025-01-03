@@ -92,7 +92,7 @@ const FeedPage: React.FC = () => {
         </div>
       )}
 
-      <Link to="/add-photo">Add New Photo</Link>
+      <Link to="/add-photo" className="add-photo-link">Add New Photo</Link>
     </div>
   );
 };

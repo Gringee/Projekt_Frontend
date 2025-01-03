@@ -92,7 +92,7 @@ const PostManagement: React.FC = () => {
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
 
       <div className="form">
-        <p>Logged in as: <strong>{'username'}</strong></p>
+        <p>Logged in as: <strong>{currentUser}</strong></p>
         <textarea
           rows={4}
           placeholder="Write your post here..."

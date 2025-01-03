@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Image, Folder } from '../types';
 
@@ -10,7 +10,7 @@ const AddPhotoPage: React.FC = () => {
   const currentUser = localStorage.getItem('username') || 'guest';
   const navigate = useNavigate();
 
-  useState(() => {
+  useEffect(() => {
     const storedFolders = JSON.parse(localStorage.getItem('folders') || '[]');
     setFolders(storedFolders);
   }, []);
@@ -62,3 +62,17 @@ const AddPhotoPage: React.FC = () => {
 };
 
 export default AddPhotoPage;
+
+// types.ts
+export interface Image {
+  id: string;
+  name: string;
+  url: string;
+  user: string;
+  folderId?: string; // Dodano opcjonalne folderId
+}
+
+export interface Folder {
+  id: string;
+  name: string;
+}

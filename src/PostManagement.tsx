@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PostManagement.css";
 
@@ -6,41 +6,83 @@ type Post = {
   id: number;
   author: string;
   content: string;
+  comments: Comment[];
+};
+
+type Comment = {
+  id: number;
+  author: string;
+  content: string;
 };
 
 const PostManagement: React.FC = () => {
-  const currentUser = "User1"; // Przykład zalogowanego użytkownika
-  const [posts, setPosts] = useState<Post[]>([
- //   { id: 1, author: "User1", content: "This is my first post!" },
- //   { id: 2, author: "User2", content: "Hello, this is User2." },
-  ]);
-  const [author, setAuthor] = useState<string>("");
-  const [content, setContent] = useState<string>("");
   const navigate = useNavigate();
+  const currentUser = localStorage.getItem('username') || ''; // Get the logged-in user's username
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [content, setContent] = useState<string>("");
+  const [commentContent, setCommentContent] = useState<string>("");
+
+  useEffect(() => {
+    const savedPosts = JSON.parse(localStorage.getItem('posts') || '[]');
+    setPosts(savedPosts);
+  }, []);
 
   const addPost = () => {
-    if (!author.trim() || !content.trim()) {
-      alert("Please fill out both fields!");
+    if (!content.trim()) {
+      alert("Please fill out the content field!");
       return;
     }
 
     const newPost: Post = {
       id: posts.length ? posts[posts.length - 1].id + 1 : 1,
-      author: author.trim(),
+      author: currentUser,
       content: content.trim(),
+      comments: [],
     };
 
-    setPosts([...posts, newPost]);
-    setAuthor("");
+    const updatedPosts = [...posts, newPost];
+    setPosts(updatedPosts);
+    localStorage.setItem('posts', JSON.stringify(updatedPosts));
     setContent("");
   };
 
   const deletePost = (id: number) => {
-    setPosts(posts.filter((post) => post.id !== id));
+    const updatedPosts = posts.filter((post) => post.id !== id);
+    setPosts(updatedPosts);
+    localStorage.setItem('posts', JSON.stringify(updatedPosts));
+  };
+
+  const addComment = (postId: number) => {
+    if (!commentContent.trim()) {
+      alert("Please enter a comment!");
+      return;
+    }
+
+    const newComment: Comment = {
+      id: Date.now(),
+      author: currentUser,
+      content: commentContent.trim(),
+    };
+
+    const updatedPosts = posts.map(post => 
+      post.id === postId ? { ...post, comments: [...post.comments, newComment] } : post
+    );
+    setPosts(updatedPosts);
+    localStorage.setItem('posts', JSON.stringify(updatedPosts));
+    setCommentContent("");
+  };
+
+  const deleteComment = (postId: number, commentId: number) => {
+    const updatedPosts = posts.map(post => 
+      post.id === postId ? { ...post, comments: post.comments.filter(comment => comment.id !== commentId) } : post
+    );
+    setPosts(updatedPosts);
+    localStorage.setItem('posts', JSON.stringify(updatedPosts));
   };
 
   const handleLogout = () => {
     localStorage.removeItem('role');
+    localStorage.removeItem('username');
     navigate('/');
   };
 
@@ -50,13 +92,7 @@ const PostManagement: React.FC = () => {
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
 
       <div className="form">
-        <input
-          type="text"
-          placeholder="Your name"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          required
-        />
+        <p>Logged in as: <strong>{currentUser}</strong></p>
         <textarea
           rows={4}
           placeholder="Write your post here..."
@@ -82,6 +118,31 @@ const PostManagement: React.FC = () => {
               )}
             </div>
             <p>{post.content}</p>
+            <div className="comments">
+              {post.comments.map((comment) => (
+                <div className="comment" key={comment.id}>
+                  <span className="comment-author">{comment.author}</span>
+                  <p>{comment.content}</p>
+                  {comment.author === currentUser && (
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteComment(post.id, comment.id)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              ))}
+              <div className="add-comment">
+                <textarea
+                  rows={2}
+                  placeholder="Add a comment..."
+                  value={commentContent}
+                  onChange={(e) => setCommentContent(e.target.value)}
+                />
+                <button onClick={() => addComment(post.id)}>Comment</button>
+              </div>
+            </div>
           </div>
         ))}
       </div>

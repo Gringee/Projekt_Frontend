@@ -55,6 +55,7 @@ const FeedPage: React.FC = () => {
   };
 
   const handleBackToFolders = () => {
+    navigate('/feed');
     setSelectedFolder(null);
     setCurrentView('folders');
   };
@@ -85,7 +86,7 @@ const FeedPage: React.FC = () => {
           <h2>Folders</h2>
           {folders.map(folder => (
             <div key={folder.id}>
-              <Link to={`/folder/${folder.id}`} className="folder-link">{folder.name}</Link>
+              <button className="folder-link" onClick={() => navigate(`/folder/${folder.id}`)}>{folder.name}</button>
             </div>
           ))}
           <Link to="/manage-folders" className="edit-folders-link">Edit folders</Link>

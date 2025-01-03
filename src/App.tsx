@@ -19,6 +19,7 @@ const App: React.FC = () => {
           <Route path="/feed" element={<FeedPage />} /> 
           <Route path="/add-photo" element={<AddPhotoPage />} />
           <Route path="/manage-folders" element={<FolderManagementPage />} />
+          <Route path="/folder/:folderId" element={<FeedPage />} />
         </Routes>
       </div>
     </Router>

@@ -1,0 +1,68 @@
+.profile-container {
+  max-width: 800px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h1 {
+  margin-bottom: 20px;
+  color: #343a40;
+}
+
+.profile-container .back-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.profile-container .back-btn:hover {
+  background-color: #c82333;
+}
+
+.profile-container .user-data,
+.profile-container .user-posts,
+.profile-container .user-photos {
+  margin-bottom: 20px;
+}
+
+.profile-container input {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: calc(50% - 10px);
+}
+
+.profile-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.profile-container button:hover {
+  background-color: #218838;
+}
+
+.post-item,
+.photo-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.photo-item img {
+  max-width: 100%;
+  height: auto;
+}

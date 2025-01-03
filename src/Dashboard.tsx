@@ -5,6 +5,7 @@ import './Dashboard.css';
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem('role');
+  const username = localStorage.getItem('username') || 'User';
   const [users, setUsers] = useState<{ username: string; role: string }[]>([]);
   const [search, setSearch] = useState('');
 
@@ -15,6 +16,7 @@ const Dashboard: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('role');
+    localStorage.removeItem('username');
     navigate('/');
   };
 
@@ -32,6 +34,10 @@ const Dashboard: React.FC = () => {
 
   const handleNavigateToPosts = () => {
     navigate('/posts');
+  };
+
+  const handleNavigateToProfile = () => {
+    navigate('/profile');
   };
 
   return (
@@ -56,13 +62,13 @@ const Dashboard: React.FC = () => {
           </ul>
         </div>
       ) : (
-        <div>
-          Welcome, User! You have limited access.
+        <div className="welcome-message">
+          Welcome, <span className="username">{username}</span>! You have limited access.
         </div>
       )}
       <button onClick={handleNavigateToFeed}>Go to Feed</button>
       <button onClick={handleNavigateToPosts}>Go to Posts</button>
-      <button onClick={handleNavigateToPosts}>Go to MyProfile</button>
+      <button onClick={handleNavigateToProfile}>Go to MyProfile</button>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import PostManagement from "./PostManagement";
 import FeedPage from './pages/FeedPage';
 import AddPhotoPage from "./pages/AddPhotoPage";
 import FolderManagementPage from "./pages/FolderManagementPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
           <Route path="/add-photo" element={<AddPhotoPage />} />
           <Route path="/manage-folders" element={<FolderManagementPage />} />
           <Route path="/folder/:folderId" element={<FeedPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </div>
     </Router>
